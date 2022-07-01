@@ -5,6 +5,8 @@ For more intricate animations:
 https://processing.org/examples/circlecollision.html
 Multi-touch:
 https://www.akeric.com/blog/?p=1435
+Multi-touch:
+https://stackoverflow.com/questions/17166522/can-processing-handle-multi-touch
 */
 
 import android.content.Context;
