@@ -36,14 +36,27 @@ color player2Col;
 //  scoring
 int score = 0;
 boolean gameOver = false;
+TouchController mTouchController;
+
+Player mPlayer1;
+Player mPlayer2;
 
 void setup() {
     println("Setting up; displayDensity: " + displayDensity);
     fullScreen();
     colorMode(HSB, 360, 100, 100);
     backgroundCol = color(49, 76, 58); // tan green
+
+    mTouchController = new TouchController();
+
+    //  set up players
     player1Col = color(177, 71, 88); // aqua
     player2Col = color(311, 61, 88); // lilac
+    mPlayer1 = new Player();
+    mPlayer2 = new Player();
+    mPlayer1.setColor(player1Col);
+    mPlayer2.setColor(player2Col);
+
 
     textFont(createFont("sansSerif", 24 * displayDensity));
     textAlign(CENTER, CENTER);
@@ -53,17 +66,19 @@ void setup() {
     
     print("Display density is " + displayDensity);
 
+
 }
 
 void draw() {
     background(backgroundCol);
-    for (int i = 0; i < touches.length; i++) {
-        float d = (100 + 100 + touches[i].area) * displayDensity;
-        fill(0, 255 * touches[i].pressure);
-        ellipse(touches[i].x, touches[i].y, d, d);
-        fill(player1Col);
-        text(touches[i].id, touches[i].x + d/2, touches[i].y - d/2);
-    }
+    mPlayer1.setPos(mTouchController.getPlayerPos(1));
+    mPlayer2.setPos(mTouchController.getPlayerPos(2));
+
+    mPlayer1.draw();
+    mPlayer2.draw();
+}
+
+void getTouches() {
 }
 
 void mousePressed() {
@@ -74,15 +89,8 @@ void mouseReleased() {
 
 @Override
 boolean surfaceTouchEvent(MotionEvent e) {
-    int numPointers = e.getPointerCount();
-    for (int i = 0; i < numPointers; i++) {
-        int id = e.getPointerId(i);
-        float x = e.getX(i);
-        float y = e.getY(i);
-    }
-    
+    mTouchController.processTouches(e);
     return super.surfaceTouchEvent(e);
-    
 }
 
 //  Processing event
