@@ -1,5 +1,5 @@
 class Player {
-    float rad = 50 * displayDensity;
+    float mRad = 50 * displayDensity;
     PVector mPos;
     color mCol;
 
@@ -21,6 +21,6 @@ class Player {
         }
 
         fill(mCol);
-        circle(mPos.x, mPos.y, rad);
+        circle(mPos.x, mPos.y, mRad);
     }
 }

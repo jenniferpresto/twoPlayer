@@ -36,7 +36,10 @@ color player2Col;
 //  scoring
 int score = 0;
 boolean gameOver = false;
+
+//  controllers
 TouchController mTouchController;
+BallController mBallController;
 
 Player mPlayer1;
 Player mPlayer2;
@@ -48,6 +51,8 @@ void setup() {
     backgroundCol = color(49, 76, 58); // tan green
 
     mTouchController = new TouchController();
+    mBallController = new BallController();
+    mBallController.setup();
 
     //  set up players
     player1Col = color(177, 71, 88); // aqua
@@ -71,6 +76,9 @@ void setup() {
 
 void draw() {
     background(backgroundCol);
+
+    mBallController.draw();
+
     mPlayer1.setPos(mTouchController.getPlayerPos(1));
     mPlayer2.setPos(mTouchController.getPlayerPos(2));
 
