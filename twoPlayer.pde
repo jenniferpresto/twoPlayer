@@ -49,11 +49,11 @@ void setup() {
     fullScreen();
     colorMode(HSB, 360, 100, 100);
     backgroundCol = color(49, 76, 58); // tan green
-
+    
     mTouchController = new TouchController();
     mBallController = new BallController();
     mBallController.setup();
-
+    
     //  set up players
     player1Col = color(177, 71, 88); // aqua
     player2Col = color(311, 61, 88); // lilac
@@ -61,8 +61,8 @@ void setup() {
     mPlayer2 = new Player();
     mPlayer1.setColor(player1Col);
     mPlayer2.setColor(player2Col);
-
-
+    
+    
     textFont(createFont("sansSerif", 24 * displayDensity));
     textAlign(CENTER, CENTER);
     ellipseMode(RADIUS);
@@ -70,18 +70,19 @@ void setup() {
     context = getActivity();
     
     print("Display density is " + displayDensity);
-
-
+    
+    
 }
 
 void draw() {
     background(backgroundCol);
-
+    
+    mBallController.update();
     mBallController.draw();
-
+    
     mPlayer1.setPos(mTouchController.getPlayerPos(1));
     mPlayer2.setPos(mTouchController.getPlayerPos(2));
-
+    
     mPlayer1.draw();
     mPlayer2.draw();
 }
