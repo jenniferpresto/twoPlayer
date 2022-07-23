@@ -9,19 +9,18 @@ class BallController {
         mBalls = new ArrayList<Ball>();
         for (int i = 0; i < NUM_BALLS; i++) {
             //  random color
-            float randHue = random(360);
-            color randCol = color(randHue, 100, 100);
+            color randCol = color(random(360), 100, 100);
             
             //  random radius
-            float randRad = random(10, 20);
+            float randRad = random(30, 40);
             
             //  random position
             float randX = random(randRad, displayWidth - randRad);
             float randY = random(randRad, displayHeight - randRad);
             
             //  random velocity
-            float xVel = random( -2, 2);
-            float yVel = random( -2, 2);
+            float xVel = random( -3, 3);
+            float yVel = random( -3, 3);
             
             Ball ball = new Ball();
             ball.setColor(randCol);
@@ -37,6 +36,7 @@ class BallController {
             b.update();
             b.collideWalls();
         }
+        mBalls.get(0).collideOtherBall(mBalls.get(1));
     }
     
     void draw() {
