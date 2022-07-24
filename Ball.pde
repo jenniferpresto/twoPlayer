@@ -4,9 +4,14 @@ class Ball {
     float mMass;
     PVector mPos;
     PVector mVel;
+    int mLabel;
+
+    boolean mDidCollideWall;
+    boolean mDidCollideBall;
     
     Ball() {
-        
+        mPos = new PVector();
+        mVel = new PVector();
     }
     
     void setColor(color c) {
@@ -21,12 +26,19 @@ class Ball {
     }
     
     PVector getPos() { return mPos; }
-    void setPos(PVector p) { mPos = p; }
+    void setPos(PVector p) { mPos.set(p); }
     
     PVector getVel() { return mVel; }
-    void setVel(PVector v) { mVel = v; }
+    void setVel(PVector v) { mVel.set(v); }
+    
+    int getLabel() { return mLabel; }
+    void setLabel(int label) { mLabel = label; }
+
+    boolean getDidCollideBall() { return mDidCollideBall; }
     
     void update() {
+        mDidCollideWall = false;
+        mDidCollideBall = false;
         mPos.add(mVel);
     }
     
@@ -35,28 +47,45 @@ class Ball {
         ellipse(mPos.x, mPos.y, mRad, mRad);
         fill(0);
         ellipse(mPos.x, mPos.y, 5, 5);
+        fill(0, 0, 100);
+        text(mLabel, mPos.x, mPos.y);
     }
     
     void collideWalls() {
         if (mPos.x > displayWidth - mRad) {
+            println("Ball " + mLabel + ": collide right");
+            mDidCollideWall = true;
             mPos.x = displayWidth - mRad;
             mVel.x *= -1;
         } else if (mPos.x < mRad) {
+            println("Ball " + mLabel + ": collide left");
+            mDidCollideWall = true;
             mPos.x = mRad;
             mVel.x *= -1;
         }
         
         if (mPos.y > displayHeight - mRad) {
+            println("Ball " + mLabel + ": collide down");
+            mDidCollideWall = true;
             mPos.y = displayHeight - mRad;
             mVel.y *= -1;
         } else if (mPos.y < mRad) {
+            println("Ball " + mLabel + ": collide up");
+            mDidCollideWall = true;
             mPos.y = mRad;
             mVel.y *= -1;   
         }
     }
     
     void collideOtherBall(Ball other) {
-        PVector diff = PVector.sub(mPos, other.getPos());
+        //  keep number of collisions in one frame to one per ball
+        if (mDidCollideWall) {
+            return;
+        }
+        if (mDidCollideBall || other.getDidCollideBall()) {
+            return;
+        }
+        PVector diff = PVector.sub(other.getPos(), mPos);
         float mag = diff.mag();
         float minDist = mRad + other.getRadius();
         //  if not touching, nothing to do
@@ -64,6 +93,7 @@ class Ball {
             return;
         }
         
+        println("Colliding balls " + mLabel + ", " + other.getLabel());
         //  place them so they're not overlapping
         float distCorrection = (minDist - mag) / 2.0;
         PVector d = diff.copy();
@@ -73,6 +103,7 @@ class Ball {
         
         //  angle of diff
         float theta = diff.heading();
+        //  precalculate trig values
         float sine = sin(theta);
         float cosine = cos(theta);
         
@@ -121,11 +152,21 @@ class Ball {
         posFinal[0].x = cosine * posTemp[0].x - sine * posTemp[0].y;
         posFinal[0].y = cosine * posTemp[0].y + sine * posTemp[0].x;
         posFinal[1].x = cosine * posTemp[1].x - sine * posTemp[1].y;
-        posFinal[1].y = cosine * posTemp[1].y + sine * posTemp[1].y;
+        posFinal[1].y = cosine * posTemp[1].y + sine * posTemp[1].x;
 
-        //  update positions of both balls
-        other.getPos().x = other.getPos().x + posFinal[1].x;
-        other.getPos().y = other.getPos().y + posFinal[1].y;
+
+        // println("Collion between " + mLabel + " and " + other.getLabel());
+        // println("Other pos first: " + other.getPos());
+        // posFinal[1].add(mPos);
+        // other.setPos(posFinal[1]);
+
+        // other.setPos(other.getPos().add(posFinal[1]));
+
+        // //  update positions of both balls
+        other.getPos().x = mPos.x + posFinal[1].x;
+        other.getPos().y = mPos.y + posFinal[1].y;
+
+        // println("Other pos after: " + other.getPos());
 
         mPos.add(posFinal[0]);
 
@@ -134,5 +175,9 @@ class Ball {
         mVel.y = cosine * velFinal[0].y + sine * velFinal[0].x;
         other.getVel().x = cosine * velFinal[1].x - sine * velFinal[1].y;
         other.getVel().y = cosine * velFinal[1].y + sine * velFinal[1].x;
+
+        // //  move them away from the walls again, if necessary
+        // collideWalls();
+        // other.collideWalls();
     }
 }
