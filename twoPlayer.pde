@@ -3,6 +3,8 @@ Some nice references:
 http://bocilmania.com/2018/04/21/how-to-get-reflection-vector/
 For more intricate animations:
 https://processing.org/examples/circlecollision.html
+Code for Art reference:
+https://github.com/jeffcrouse/CodeForArt/blob/master/Chapter004-physics/004-collide/src/testApp.cpp
 Multi-touch:
 https://www.akeric.com/blog/?p=1435
 Multi-touch:

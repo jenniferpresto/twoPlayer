@@ -15,11 +15,9 @@ class BallController {
             float randRad = random(30, 40);
             
             //  random position
-            // float randX = random(randRad, displayWidth - randRad);
-            // float randY = random(randRad, displayHeight - randRad);
+            float randX = random(randRad, displayWidth - randRad);
+            float randY = random(randRad, displayHeight - randRad);
 
-            float randX = random(-5, 5);
-            float randY = random(-5, 5);
             PVector center = new PVector(displayWidth / 2, displayHeight / 2);
             center.add(new PVector(randX, randY));
 
@@ -30,8 +28,7 @@ class BallController {
             Ball ball = new Ball();
             ball.setColor(randCol);
             ball.setRadius(randRad);
-            ball.setPos(center);
-            // ball.setPos(new PVector(randX, randY));
+            ball.setPos(new PVector(randX, randY));
             ball.setVel(new PVector(xVel, yVel));
             ball.setLabel(i);
             mBalls.add(ball);
@@ -39,14 +36,16 @@ class BallController {
     }
     
     void update() {
-        println("frame: " + frameCount);
         for (Ball b : mBalls) {
             b.update();
             b.collideWalls();
         }
 
         for (int i = 0; i < NUM_BALLS; i++) {
-            for (int j = i + 1; j < NUM_BALLS; j++) {
+            for (int j = 0; j < NUM_BALLS; j++) {
+                if (i == j) {
+                    continue;
+                }
                 mBalls.get(i).collideOtherBall(mBalls.get(j));
             }
         }
