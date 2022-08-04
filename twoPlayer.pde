@@ -84,6 +84,15 @@ void draw() {
     
     mPlayer1.setPos(mTouchController.getPlayerPos(1));
     mPlayer2.setPos(mTouchController.getPlayerPos(2));
+
+    for (Ball b : mBallController.getBalls()) {
+        if (mTouchController.getPlayer1Id() != null) {
+            mPlayer1.checkBall(b);
+        }
+        if (mTouchController.getPlayer2Id() != null) {
+            mPlayer2.checkBall(b);
+        }
+    }
     
     mPlayer1.draw();
     mPlayer2.draw();

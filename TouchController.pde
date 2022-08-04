@@ -14,6 +14,9 @@ class TouchController {
         mActivePointers = new HashMap();
     }
 
+    Integer getPlayer1Id() { return mPlayer1Id; }
+    Integer getPlayer2Id() { return mPlayer2Id; }
+
     PVector getPlayerPos(int playerNum) {
         Integer playerId = playerNum == 1 ? mPlayer1Id : mPlayer2Id;
         if (playerId == null) {

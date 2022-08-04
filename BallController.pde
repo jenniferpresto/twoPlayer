@@ -4,6 +4,8 @@ class BallController {
     ArrayList<Ball> mBalls;
     
     BallController() {}
+
+    ArrayList<Ball> getBalls() { return mBalls; }
     
     void setup() {
         mBalls = new ArrayList<Ball>();
