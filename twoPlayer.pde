@@ -77,6 +77,7 @@ void setup() {
 }
 
 void draw() {
+    textAlign(CENTER, CENTER);
     background(backgroundCol);
     
     mBallController.update();
@@ -85,17 +86,38 @@ void draw() {
     mPlayer1.setPos(mTouchController.getPlayerPos(1));
     mPlayer2.setPos(mTouchController.getPlayerPos(2));
 
+    ArrayList<Ball> ballsToBeRemoved = new ArrayList<Ball>();
+
     for (Ball b : mBallController.getBalls()) {
         if (mTouchController.getPlayer1Id() != null) {
-            mPlayer1.checkBall(b);
+            if (mPlayer1.doesHitBall(b)) {
+                mPlayer1.setScore(mPlayer1.getScore() + 1);
+                ballsToBeRemoved.add(b);
+            }
         }
         if (mTouchController.getPlayer2Id() != null) {
-            mPlayer2.checkBall(b);
+            if (mPlayer2.doesHitBall(b)) {
+                mPlayer2.setScore(mPlayer2.getScore() + 1);
+                if (!ballsToBeRemoved.contains(b)) {
+                    ballsToBeRemoved.add(b);
+                }
+            }
         }
+    }
+
+    //  do this separately so both players can get
+    //  credit for a ball they hit at the same time
+    for(Ball b : ballsToBeRemoved) {
+        mBallController.getBalls().remove(b);
     }
     
     mPlayer1.draw();
     mPlayer2.draw();
+    fill(0, 0, 100);
+    textAlign(LEFT, TOP);
+    text("Player 1: " + mPlayer1.getScore(), 5 * displayDensity, 10 * displayDensity);
+    text("Player 2: " + mPlayer2.getScore(), 5 * displayDensity, 50 * displayDensity);
+
 }
 
 void getTouches() {

@@ -46,8 +46,9 @@ class BallController {
             b.collideWalls();
         }
 
-        for (int i = 0; i < NUM_BALLS; i++) {
-            for (int j = 0; j < NUM_BALLS; j++) {
+        int numRemainingBalls = mBalls.size();
+        for (int i = 0; i < numRemainingBalls; i++) {
+            for (int j = 0; j < numRemainingBalls; j++) {
                 if (i == j) {
                     continue;
                 }
