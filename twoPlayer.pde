@@ -42,17 +42,21 @@ boolean gameOver = false;
 //  controllers
 TouchController mTouchController;
 BallController mBallController;
+GameController mGameController;
+
 
 Player mPlayer1;
 Player mPlayer2;
 
 void setup() {
     println("Setting up; displayDensity: " + displayDensity);
+    println("Class: " + this.getClass());
     fullScreen();
     colorMode(HSB, 360, 100, 100);
     backgroundCol = color(49, 76, 58); // tan green
     
     mTouchController = new TouchController();
+    mGameController = new GameController();
     mBallController = new BallController();
     mBallController.setup();
     
@@ -129,9 +133,22 @@ void mousePressed() {
 void mouseReleased() {
 }
 
+void onPlayerAdded(Integer playerNum, PointF pos) {
+    println("onTouchDown: Have a new touch for player: " + playerNum + ", pos: " + pos);
+    mGameController.addPlayer(playerNum, pos);
+}
+
+void onTouchMove(MotionEvent e,  Map<Integer, PointF> activePointers) {
+
+}
+
+void onTouchUp(MotionEvent e,  Map<Integer, PointF> activePointers) {
+
+}
+
 @Override
 boolean surfaceTouchEvent(MotionEvent e) {
-    mTouchController.processTouches(e);
+    mTouchController.processTouches(this, e);
     return super.surfaceTouchEvent(e);
 }
 

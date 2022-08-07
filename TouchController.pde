@@ -28,7 +28,7 @@ class TouchController {
         return new PVector(mActivePointers.get(playerId).x, mActivePointers.get(playerId).y);
     }
 
-    void processTouches(MotionEvent e) {
+    void processTouches(processing.test.twoplayer.twoPlayer app, MotionEvent e) {
         //  pointer index from event object
         int pointerIndex = e.getActionIndex();
         //  pointer ID
@@ -44,7 +44,10 @@ class TouchController {
                 point.x = e.getX(pointerIndex);
                 point.y = e.getY(pointerIndex);
                 mActivePointers.put(pointerId, point);
-                addPlayer(pointerId);
+                Integer playerId = addPlayer(pointerId);
+                if (playerId != null) {
+                    app.onPlayerAdded(playerId, point);
+                }
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -67,25 +70,31 @@ class TouchController {
         }
     }
 
-    void addPlayer(int id) {
-        println("Adding player: " + id);
+    Integer addPlayer(int pointerId) {
+        println("Adding player: " + pointerId);
         if (mPlayer1Id == null) {
-            mPlayer1Id = id;
+            mPlayer1Id = pointerId;
+            return 1;
         } else if (mPlayer2Id == null) {
-            mPlayer2Id = id;
+            mPlayer2Id = pointerId;
+            return 2;
         } else {
             println("Already have two players");
+            return null;
         }
     }
 
-    void removePlayer(int id) {
-        println("Removing player: " + id);
-        if (mPlayer1Id != null && mPlayer1Id.equals(id)) {
+    Integer removePlayer(int pointerId) {
+        println("Removing player: " + pointerId);
+        if (mPlayer1Id != null && mPlayer1Id.equals(pointerId)) {
             mPlayer1Id = null;
-        } else if (mPlayer2Id != null && mPlayer2Id.equals(id)) {
+            return 1;
+        } else if (mPlayer2Id != null && mPlayer2Id.equals(pointerId)) {
             mPlayer2Id = null;
+            return 2;
         } else {
-            println("Did not remove plalyer");
+            println("Did not remove player");
+            return null;
         }
     }
 }
