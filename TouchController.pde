@@ -33,7 +33,7 @@ class TouchController {
         int pointerIndex = e.getActionIndex();
         //  pointer ID
         int pointerId = e.getPointerId(pointerIndex);
-        //  mased (not specific to pointer) action
+        //  masked (not specific to pointer) action
         int maskedAction = e.getActionMasked();
         
         switch(maskedAction) {
@@ -57,6 +57,12 @@ class TouchController {
                     if (existingPoint != null) {
                         existingPoint.x = e.getX(i);
                         existingPoint.y = e.getY(i);
+                        if (e.getPointerId(i) == mPlayer1Id) {
+                            app.onPlayerMoved(1, existingPoint);
+                        } 
+                        else if (e.getPointerId(i) == mPlayer2Id) {
+                            app.onPlayerMoved(2, existingPoint);
+                        }
                     }
                 }
                 break;
@@ -65,7 +71,10 @@ class TouchController {
             case MotionEvent.ACTION_POINTER_UP:
             case MotionEvent.ACTION_CANCEL:
                 mActivePointers.remove(pointerId);
-                removePlayer(pointerId);
+                Integer delPlayerId = removePlayer(pointerId);
+                if (delPlayerId != null) {
+                    app.onPlayerRemoved(delPlayerId);
+                }
                 break;
         }
     }

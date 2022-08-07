@@ -32,16 +32,16 @@ import java.util.Map;
 Context context;
 
 color backgroundCol;
-color player1Col;
-color player2Col;
+// color player1Col;
+// color player2Col;
 
 //  scoring
-int score = 0;
+// int score = 0;
 boolean gameOver = false;
 
 //  controllers
 TouchController mTouchController;
-BallController mBallController;
+// BallController mBallController;
 GameController mGameController;
 
 
@@ -57,70 +57,67 @@ void setup() {
     
     mTouchController = new TouchController();
     mGameController = new GameController();
-    mBallController = new BallController();
-    mBallController.setup();
+    // mBallController = new BallController();
+    // mBallController.setup();
     
     //  set up players
-    player1Col = color(177, 71, 88); // aqua
-    player2Col = color(311, 61, 88); // lilac
-    mPlayer1 = new Player();
-    mPlayer2 = new Player();
-    mPlayer1.setColor(player1Col);
-    mPlayer2.setColor(player2Col);
-    
+    // player1Col = color(177, 71, 88); // aqua
+    // player2Col = color(311, 61, 88); // lilac
+    // mPlayer1 = new Player();
+    // mPlayer2 = new Player();
+    // mPlayer1.setColor(player1Col);
+    // mPlayer2.setColor(player2Col);
     
     textFont(createFont("sansSerif", 24 * displayDensity));
     textAlign(CENTER, CENTER);
     ellipseMode(RADIUS);
     rectMode(CENTER);
     context = getActivity();
-    
-    print("Display density is " + displayDensity);
-    
-    
 }
 
 void draw() {
     textAlign(CENTER, CENTER);
     background(backgroundCol);
+    mGameController.update();
+    mGameController.draw();
     
-    mBallController.update();
-    mBallController.draw();
+    // mBallController.update();
+    // mBallController.draw();
     
-    mPlayer1.setPos(mTouchController.getPlayerPos(1));
-    mPlayer2.setPos(mTouchController.getPlayerPos(2));
+    // mPlayer1.setPos(mTouchController.getPlayerPos(1));
+    // mPlayer2.setPos(mTouchController.getPlayerPos(2));
 
-    ArrayList<Ball> ballsToBeRemoved = new ArrayList<Ball>();
+    // ArrayList<Ball> ballsToBeRemoved = new ArrayList<Ball>();
 
-    for (Ball b : mBallController.getBalls()) {
-        if (mTouchController.getPlayer1Id() != null) {
-            if (mPlayer1.doesHitBall(b)) {
-                mPlayer1.setScore(mPlayer1.getScore() + 1);
-                ballsToBeRemoved.add(b);
-            }
-        }
-        if (mTouchController.getPlayer2Id() != null) {
-            if (mPlayer2.doesHitBall(b)) {
-                mPlayer2.setScore(mPlayer2.getScore() + 1);
-                if (!ballsToBeRemoved.contains(b)) {
-                    ballsToBeRemoved.add(b);
-                }
-            }
-        }
-    }
+    // for (Ball b : mBallController.getBalls()) {
+    //     if (mTouchController.getPlayer1Id() != null) {
+    //         if (mPlayer1.doesHitBall(b)) {
+    //             mPlayer1.setScore(mPlayer1.getScore() + 1);
+    //             ballsToBeRemoved.add(b);
+    //         }
+    //     }
+    //     if (mTouchController.getPlayer2Id() != null) {
+    //         if (mPlayer2.doesHitBall(b)) {
+    //             mPlayer2.setScore(mPlayer2.getScore() + 1);
+    //             if (!ballsToBeRemoved.contains(b)) {
+    //                 ballsToBeRemoved.add(b);
+    //             }
+    //         }
+    //     }
+    // }
 
-    //  do this separately so both players can get
-    //  credit for a ball they hit at the same time
-    for(Ball b : ballsToBeRemoved) {
-        mBallController.getBalls().remove(b);
-    }
+    // //  do this separately so both players can get
+    // //  credit for a ball they hit at the same time
+    // for(Ball b : ballsToBeRemoved) {
+    //     mBallController.getBalls().remove(b);
+    // }
     
-    mPlayer1.draw();
-    mPlayer2.draw();
-    fill(0, 0, 100);
-    textAlign(LEFT, TOP);
-    text("Player 1: " + mPlayer1.getScore(), 5 * displayDensity, 10 * displayDensity);
-    text("Player 2: " + mPlayer2.getScore(), 5 * displayDensity, 50 * displayDensity);
+    // mPlayer1.draw();
+    // mPlayer2.draw();
+    // fill(0, 0, 100);
+    // textAlign(LEFT, TOP);
+    // text("Player 1: " + mPlayer1.getScore(), 5 * displayDensity, 10 * displayDensity);
+    // text("Player 2: " + mPlayer2.getScore(), 5 * displayDensity, 50 * displayDensity);
 
 }
 
@@ -138,11 +135,11 @@ void onPlayerAdded(Integer playerNum, PointF pos) {
     mGameController.addPlayer(playerNum, pos);
 }
 
-void onTouchMove(MotionEvent e,  Map<Integer, PointF> activePointers) {
+void onPlayerMoved(Integer playerNum, PointF pos) {
 
 }
 
-void onTouchUp(MotionEvent e,  Map<Integer, PointF> activePointers) {
+void onPlayerRemoved(Integer playerNum) {
 
 }
 

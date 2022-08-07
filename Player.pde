@@ -13,6 +13,7 @@ class Player {
         mCol = c;
     }
 
+    PVector getPos() { return mPos; }
     void setPos(PVector p) {
         mPos = p;
     }
