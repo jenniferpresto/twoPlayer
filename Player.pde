@@ -1,11 +1,13 @@
 class Player {
+    boolean mIsActive;
     float mRad = 50 * displayDensity;
     PVector mPos;
     color mCol;
     int mScore;
 
     Player() {
-        mPos = null;
+        mIsActive = false;
+        mPos = new PVector();
         mScore = 0;
     }
 
@@ -13,9 +15,12 @@ class Player {
         mCol = c;
     }
 
+    void setIsActive(boolean a) { mIsActive = a; }
+    boolean getIsActive() { return mIsActive; }
+
     PVector getPos() { return mPos; }
-    void setPos(PVector p) {
-        mPos = p;
+    void setPos(float x, float y) {
+        mPos.set(x, y);
     }
     
     int getScore() { return mScore; }

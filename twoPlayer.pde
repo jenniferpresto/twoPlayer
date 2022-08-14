@@ -131,16 +131,16 @@ void mouseReleased() {
 }
 
 void onPlayerAdded(Integer playerNum, PointF pos) {
-    println("onTouchDown: Have a new touch for player: " + playerNum + ", pos: " + pos);
+    println("onPlayerAdded: Have a new touch for player: " + playerNum + ", pos: " + pos);
     mGameController.addPlayer(playerNum, pos);
 }
 
 void onPlayerMoved(Integer playerNum, PointF pos) {
-
+    mGameController.updatePlayer(playerNum, pos);
 }
 
 void onPlayerRemoved(Integer playerNum) {
-
+    mGameController.removePlayer(playerNum);
 }
 
 @Override
