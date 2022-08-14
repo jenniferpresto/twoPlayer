@@ -6,9 +6,6 @@ class Ball {
     PVector mVel;
     int mLabel;
 
-    boolean mDidCollideWall;
-    boolean mDidCollideBall;
-    
     Ball() {
         mPos = new PVector();
         mVel = new PVector();
@@ -34,12 +31,8 @@ class Ball {
     int getLabel() { return mLabel; }
     void setLabel(int label) { mLabel = label; }
 
-    boolean getDidCollideBall() { return mDidCollideBall; }
-    
     void update() {
         setColor(color(100, 100, 100));
-        mDidCollideWall = false;
-        mDidCollideBall = false;
         mPos.add(mVel);
     }
     
