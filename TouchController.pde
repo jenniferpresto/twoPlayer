@@ -80,7 +80,6 @@ class TouchController {
     }
 
     Integer addPlayer(int pointerId) {
-        println("Adding player: " + pointerId);
         if (mPlayer1Id == null) {
             mPlayer1Id = pointerId;
             return 1;
@@ -88,13 +87,12 @@ class TouchController {
             mPlayer2Id = pointerId;
             return 2;
         } else {
-            println("Already have two players");
+            println("Warning: Already have two players");
             return null;
         }
     }
 
     Integer removePlayer(int pointerId) {
-        println("Removing player: " + pointerId);
         if (mPlayer1Id != null && mPlayer1Id.equals(pointerId)) {
             mPlayer1Id = null;
             return 1;
@@ -102,7 +100,7 @@ class TouchController {
             mPlayer2Id = null;
             return 2;
         } else {
-            println("Did not remove player");
+            println("Warning: Did not remove player");
             return null;
         }
     }

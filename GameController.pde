@@ -5,6 +5,7 @@ class GameController {
     color mPlayer1Col;
     color mPlayer2Col;
     BallController mBallController;
+    boolean mIsGameOver;
 
 
     GameController() {
@@ -18,6 +19,8 @@ class GameController {
 
         mBallController = new BallController();
         mBallController.setup();
+
+        mIsGameOver = false;
     }
 
     void addPlayer(Integer playerNum, PointF pos) {
@@ -81,22 +84,39 @@ class GameController {
         }
     }
 
+    void checkGameOver() {
+        if (mBallController.getBalls().size() < 1) {
+            mIsGameOver = true;
+        }
+    }
+
     void update() {
-        mBallController.update();
-        checkCollisions();
+        checkGameOver();
+        if (mIsGameOver) {
+        } else {
+            mBallController.update();
+            checkCollisions();
+        }
     }
 
     void draw() {
-        mBallController.draw();
-        if (mPlayer1.getIsActive()) {
-            mPlayer1.draw();
-        }
-        if (mPlayer2.getIsActive()) {
-            mPlayer2.draw();
+        if (mIsGameOver) {
+
+        } else {
+            mBallController.draw();
+            if (mPlayer1.getIsActive()) {
+                mPlayer1.draw();
+            }
+            if (mPlayer2.getIsActive()) {
+                mPlayer2.draw();
+            }
         }
         fill(0, 0, 100);
         textAlign(LEFT, TOP);
         text("Player 1: " + mPlayer1.getScore(), 5 * displayDensity, 10 * displayDensity);
-        text("Player 2: " + mPlayer2.getScore(), 5 * displayDensity, 50 * displayDensity);
+        text("Player 2: " + mPlayer2.getScore(), 5 * displayDensity, 40 * displayDensity);
+        if (mIsGameOver) {
+            text("Game Over", 5 * displayDensity, 70 * displayDensity);
+        }
     }
 }

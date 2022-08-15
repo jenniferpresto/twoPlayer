@@ -47,21 +47,17 @@ class Ball {
     
     void collideWalls() {
         if (mPos.x > displayWidth - mRad) {
-            mDidCollideWall = true;
             mPos.x = displayWidth - mRad;
             mVel.x *= -1;
         } else if (mPos.x < mRad) {
-            mDidCollideWall = true;
             mPos.x = mRad;
             mVel.x *= -1;
         }
         
         if (mPos.y > displayHeight - mRad) {
-            mDidCollideWall = true;
             mPos.y = displayHeight - mRad;
             mVel.y *= -1;
         } else if (mPos.y < mRad) {
-            mDidCollideWall = true;
             mPos.y = mRad;
             mVel.y *= -1;   
         }
