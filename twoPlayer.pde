@@ -85,6 +85,10 @@ void onPlayerRemoved(Integer playerNum) {
     mGameController.removePlayer(playerNum);
 }
 
+void onClick(PVector pos) {
+    println("End click at " + pos);
+}
+
 @Override
 boolean surfaceTouchEvent(MotionEvent e) {
     mTouchController.processTouches(this, e);

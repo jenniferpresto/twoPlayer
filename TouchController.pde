@@ -7,6 +7,11 @@ class TouchController {
     Integer mPlayer1Id;
     Integer mPlayer2Id;
     Map<Integer, PointF> mActivePointers;
+    boolean mIsClicking;
+    Integer mClickId;
+    float mTimeClickStarted;
+    PVector mClickStartPoint;
+    float MAX_DRAG_DISTANCE = 10 * displayDensity;
 
     TouchController() {
         mPlayer1Id = null;
@@ -48,6 +53,15 @@ class TouchController {
                 if (playerId != null) {
                     app.onPlayerAdded(playerId, point);
                 }
+
+                //  clicking
+                if (!mIsClicking) {
+                    mClickId = pointerId;
+                    mTimeClickStarted = millis();
+                    mIsClicking = true;
+                    mClickStartPoint = new PVector(point.x, point.y);
+                }
+
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -75,6 +89,20 @@ class TouchController {
                 if (delPlayerId != null) {
                     app.onPlayerRemoved(delPlayerId);
                 }
+
+                //  clicking
+                if (pointerId == mClickId) {
+                    mIsClicking = false;
+                    PVector clickEndPoint = new PVector();
+                    clickEndPoint.x = e.getX(pointerIndex);
+                    clickEndPoint.y = e.getY(pointerIndex);
+                    float dist = PVector.dist(clickEndPoint, mClickStartPoint);
+                    if (millis() - mTimeClickStarted < 1000 &&
+                        dist < MAX_DRAG_DISTANCE) {
+                        app.onClick(clickEndPoint);
+                    }
+                }
+
                 break;
         }
     }
