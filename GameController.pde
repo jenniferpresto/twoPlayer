@@ -6,6 +6,7 @@ class GameController {
     color mPlayer2Col;
     BallController mBallController;
     boolean mIsGameOver;
+    ResetGameButton mResetGameButton;
 
 
     GameController() {
@@ -20,8 +21,12 @@ class GameController {
         mBallController = new BallController();
         mBallController.setup();
 
+        mResetGameButton = new ResetGameButton();
+
         mIsGameOver = false;
     }
+
+    boolean getIsGameOver() { return mIsGameOver; }
 
     void addPlayer(Integer playerNum, PointF pos) {
         if (playerNum.equals(1)) {
@@ -90,6 +95,15 @@ class GameController {
         }
     }
 
+    boolean clickIsInButton(PVector pos) {
+        return mResetGameButton.posIsInside(pos);
+    }
+
+    void resetGame() {
+        mBallController.setup();
+        mIsGameOver = false;
+    }
+
     void update() {
         checkGameOver();
         if (mIsGameOver) {
@@ -101,7 +115,7 @@ class GameController {
 
     void draw() {
         if (mIsGameOver) {
-
+            mResetGameButton.draw();
         } else {
             mBallController.draw();
             if (mPlayer1.getIsActive()) {

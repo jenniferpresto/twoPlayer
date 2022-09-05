@@ -31,7 +31,7 @@ import java.util.Map;
 
 Context context;
 
-color backgroundCol;
+static color BACKGROUND_COLOR;
 
 //  controllers
 TouchController mTouchController;
@@ -44,9 +44,14 @@ Player mPlayer2;
 void setup() {
     println("Setting up; displayDensity: " + displayDensity);
     println("Class: " + this.getClass());
+    String[] fonts = PFont.list();
+    for (String f : fonts) {
+      println(f);
+    }
+    //println("All fonts:\n" + fonts);
     fullScreen();
     colorMode(HSB, 360, 100, 100);
-    backgroundCol = color(49, 76, 58); // tan green
+    BACKGROUND_COLOR = color(49, 76, 58); // tan green
     
     mTouchController = new TouchController();
     mGameController = new GameController();
@@ -59,7 +64,7 @@ void setup() {
 
 void draw() {
     textAlign(CENTER, CENTER);
-    background(backgroundCol);
+    background(BACKGROUND_COLOR);
     mGameController.update();
     mGameController.draw();
 }
@@ -74,19 +79,31 @@ void mouseReleased() {
 }
 
 void onPlayerAdded(Integer playerNum, PointF pos) {
-    mGameController.addPlayer(playerNum, pos);
+    if (!mGameController.getIsGameOver()) {
+        mGameController.addPlayer(playerNum, pos);
+    }
 }
 
 void onPlayerMoved(Integer playerNum, PointF pos) {
-    mGameController.updatePlayer(playerNum, pos);
+    if (!mGameController.getIsGameOver()) {
+        mGameController.updatePlayer(playerNum, pos);
+    }
 }
 
 void onPlayerRemoved(Integer playerNum) {
-    mGameController.removePlayer(playerNum);
+    if (!mGameController.getIsGameOver()) {
+        mGameController.removePlayer(playerNum);
+    }
 }
 
 void onClick(PVector pos) {
     println("End click at " + pos);
+    if (mGameController.getIsGameOver() &&
+        mGameController.clickIsInButton(pos)) {
+            println("We're clicking!");
+            mGameController.resetGame();
+            mTouchController.resetGame();
+        }
 }
 
 @Override

@@ -132,4 +132,9 @@ class TouchController {
             return null;
         }
     }
+
+    void resetGame() {
+        mPlayer1Id = null;
+        mPlayer2Id = null;
+    }
 }
