@@ -20,10 +20,13 @@ class GameController {
         mPlayer1Col = color(177, 71, 88); // aqua
         mPlayer2Col = color(311, 61, 88); // lilac
 
-        Player[] mPlayers = new Player[2];
+        mPlayers = new Player[2];
 
         mPlayer1 = new Player();
+        mPlayer1.setPlayerId(1);
+        
         mPlayer2 = new Player();
+        mPlayer2.setPlayerId(2);
         mPlayers[0] = mPlayer1;
         mPlayers[1] = mPlayer2;
         mPlayer1.setColor(mPlayer1Col);
@@ -59,8 +62,10 @@ class GameController {
         }
 
         //  iterate through all active pointers
+        println(frameCount + ": Number of pointers: " + activePointers.size());
         Iterator<Map.Entry<Integer, PointF>> it = activePointers.entrySet().iterator();
         while(it.hasNext()) {
+            println("\tit has next");
             Map.Entry<Integer, PointF> pointer = it.next();
             boolean foundPointer = false;
             //  check active players to update
@@ -77,7 +82,7 @@ class GameController {
             if (foundPointer == false) {
                 for (Player p : mPlayers) {
                     if (!p.getIsActive()) {
-                        println("adding new player");
+                        println("adding new player: player " + p.getPlayerId());
                         p.setTouchId(pointer.getKey());
                         p.setPos(pointer.getValue().x, pointer.getValue().y);
                         p.setIsActive(true);
@@ -90,8 +95,8 @@ class GameController {
         //  if there are players that don't have active pointers any more,
         //  mark the player inactive
         for (Player p : mPlayers) {
-            if (!p.getDidUpdatePlayer()) {
-                println("Removing player");
+            if (p.getIsActive() && !p.getDidUpdatePlayer()) {
+                println("Removing player: " + p.getPlayerId());
                 p.setIsActive(false);
             }
         }
@@ -168,6 +173,7 @@ class GameController {
     }
 
     void update() {
+        updatePlayers();
         checkGameOver();
         if (mIsGameOver) {
         } else {

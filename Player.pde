@@ -6,6 +6,7 @@ class Player {
     color mCol;
     int mScore;
     Integer mTouchId;
+    Integer mPlayerId;
 
 
     Player() {
@@ -26,8 +27,11 @@ class Player {
     void setDidUpdatePlayer(boolean u) { mDidUpdatePlayer = u; }
     boolean getDidUpdatePlayer() { return mDidUpdatePlayer; }
 
-    void setTouchId(int id) { mTouchId = id; }
+    void setTouchId(Integer id) { mTouchId = id; }
     Integer getTouchId() { return mTouchId; }
+
+    void setPlayerId(Integer id) { mPlayerId = id; }
+    Integer getPlayerId() { return mPlayerId; }
 
     PVector getPos() { return mPos; }
     void setPos(float x, float y) {

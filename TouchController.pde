@@ -47,7 +47,7 @@ class TouchController {
         switch(maskedAction) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
-                println("down");
+                // println("down");
                 //  new pointer
                 PointF point = new PointF();
                 point.x = e.getX(pointerIndex);
@@ -69,7 +69,7 @@ class TouchController {
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                println("move");
+                // println("move");
                 //  pointer was moved; will have info for all active pointers
                 for (int i = 0; i < e.getPointerCount(); i++) {
                     PointF existingPoint = mActivePointers.get(e.getPointerId(i));
@@ -114,7 +114,7 @@ class TouchController {
             default:
                 break;
         }
-        println(millis() + "Touch controller done processing touches");
+        // println(millis() + "Touch controller done processing touches");
     }
 
     Integer addPlayer(int pointerId) {
