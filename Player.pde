@@ -1,14 +1,19 @@
 class Player {
     boolean mIsActive;
+    boolean mDidUpdatePlayer;
     float mRad = 50 * displayDensity;
     PVector mPos;
     color mCol;
     int mScore;
+    Integer mTouchId;
+
 
     Player() {
         mIsActive = false;
+        mDidUpdatePlayer = false;
         mPos = new PVector();
         mScore = 0;
+        mTouchId = null;
     }
 
     void setColor(color c) {
@@ -17,6 +22,12 @@ class Player {
 
     void setIsActive(boolean a) { mIsActive = a; }
     boolean getIsActive() { return mIsActive; }
+
+    void setDidUpdatePlayer(boolean u) { mDidUpdatePlayer = u; }
+    boolean getDidUpdatePlayer() { return mDidUpdatePlayer; }
+
+    void setTouchId(int id) { mTouchId = id; }
+    Integer getTouchId() { return mTouchId; }
 
     PVector getPos() { return mPos; }
     void setPos(float x, float y) {
@@ -38,7 +49,7 @@ class Player {
     }
 
     void draw() {
-        if (mPos == null) {
+        if (mPos == null || mIsActive == false) {
             return;
         }
 

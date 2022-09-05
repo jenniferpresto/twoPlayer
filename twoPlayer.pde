@@ -54,7 +54,7 @@ void setup() {
     BACKGROUND_COLOR = color(49, 76, 58); // tan green
     
     mTouchController = new TouchController();
-    mGameController = new GameController();
+    mGameController = new GameController(mTouchController);
     textFont(createFont("sansSerif", 24 * displayDensity));
     textAlign(CENTER, CENTER);
     ellipseMode(RADIUS);

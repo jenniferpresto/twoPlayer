@@ -33,7 +33,10 @@ class TouchController {
         return new PVector(mActivePointers.get(playerId).x, mActivePointers.get(playerId).y);
     }
 
+    Map<Integer, PointF> getActivePointers() { return mActivePointers; }
+
     void processTouches(processing.test.twoplayer.twoPlayer app, MotionEvent e) {
+        println(millis() + "Touch controller processing touches");
         //  pointer index from event object
         int pointerIndex = e.getActionIndex();
         //  pointer ID
@@ -44,15 +47,16 @@ class TouchController {
         switch(maskedAction) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
+                println("down");
                 //  new pointer
                 PointF point = new PointF();
                 point.x = e.getX(pointerIndex);
                 point.y = e.getY(pointerIndex);
                 mActivePointers.put(pointerId, point);
-                Integer playerId = addPlayer(pointerId);
-                if (playerId != null) {
-                    app.onPlayerAdded(playerId, point);
-                }
+                // Integer playerId = addPlayer(pointerId);
+                // if (playerId != null) {
+                //     app.onPlayerAdded(playerId, point);
+                // }
 
                 //  clicking
                 if (!mIsClicking) {
@@ -65,18 +69,19 @@ class TouchController {
                 break;
 
             case MotionEvent.ACTION_MOVE:
+                println("move");
                 //  pointer was moved; will have info for all active pointers
                 for (int i = 0; i < e.getPointerCount(); i++) {
                     PointF existingPoint = mActivePointers.get(e.getPointerId(i));
                     if (existingPoint != null) {
                         existingPoint.x = e.getX(i);
                         existingPoint.y = e.getY(i);
-                        if (e.getPointerId(i) == mPlayer1Id) {
-                            app.onPlayerMoved(1, existingPoint);
-                        } 
-                        else if (e.getPointerId(i) == mPlayer2Id) {
-                            app.onPlayerMoved(2, existingPoint);
-                        }
+                        // if (e.getPointerId(i) == mPlayer1Id) {
+                        //     app.onPlayerMoved(1, existingPoint);
+                        // } 
+                        // else if (e.getPointerId(i) == mPlayer2Id) {
+                        //     app.onPlayerMoved(2, existingPoint);
+                        // }
                     }
                 }
                 break;
@@ -84,11 +89,12 @@ class TouchController {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
             case MotionEvent.ACTION_CANCEL:
+                println("up");
                 mActivePointers.remove(pointerId);
-                Integer delPlayerId = removePlayer(pointerId);
-                if (delPlayerId != null) {
-                    app.onPlayerRemoved(delPlayerId);
-                }
+                // Integer delPlayerId = removePlayer(pointerId);
+                // if (delPlayerId != null) {
+                //     app.onPlayerRemoved(delPlayerId);
+                // }
 
                 //  clicking
                 if (pointerId == mClickId) {
@@ -104,7 +110,11 @@ class TouchController {
                 }
 
                 break;
+
+            default:
+                break;
         }
+        println(millis() + "Touch controller done processing touches");
     }
 
     Integer addPlayer(int pointerId) {
@@ -136,5 +146,6 @@ class TouchController {
     void resetGame() {
         mPlayer1Id = null;
         mPlayer2Id = null;
+        println("Touch controller has reset game");
     }
 }
