@@ -52,7 +52,11 @@ class GameController {
         }
     }
 
-    void touchAdded(Integer touchId, PointF pos) {
+    void reportStartingTouches(List<Integer> startingTouches) {
+
+    }
+
+    void reportEndingTouches(List<Integer> endingTouches) {
 
     }
 

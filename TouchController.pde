@@ -53,7 +53,7 @@ class TouchController {
                 point.x = e.getX(pointerIndex);
                 point.y = e.getY(pointerIndex);
                 mActivePointers.put(pointerId, point);
-                app.onTouchStarted(pointerId, point);
+                app.onTouchStarted(pointerId);
                 // Integer playerId = addPlayer(pointerId);
                 // if (playerId != null) {
                 //     app.onPlayerAdded(playerId, point);
@@ -92,6 +92,7 @@ class TouchController {
             case MotionEvent.ACTION_CANCEL:
                 println("up");
                 mActivePointers.remove(pointerId);
+                app.onTouchEnded(pointerId);
                 // Integer delPlayerId = removePlayer(pointerId);
                 // if (delPlayerId != null) {
                 //     app.onPlayerRemoved(delPlayerId);

@@ -35,7 +35,6 @@ import processing.event.TouchEvent;
 Context context;
 
 static color BACKGROUND_COLOR;
-final int MAX_PLAYERS = 2;
 
 //  controllers
 TouchController mTouchController;
@@ -77,13 +76,16 @@ void setup() {
 void draw() {
     textAlign(CENTER, CENTER);
     background(BACKGROUND_COLOR);
+    if (mTouchIdsStarting.length > 0) {
+        mGameController.reportStartingTouches(mTouchIdsStarting);
+        mTouchIdsStarting.clear();
+    }
+    if (mTouchIdsEnding.length > 0) {
+        mGameController.reportEndingTouches(mTouchIdsEnding);
+        mTouchIdsEnding.clear();
+    }
     mGameController.update();
     mGameController.draw();
-}
-
-void clearTouchLists() {
-    mTouchIdsStarting.clear();
-    mTouchIdsEnding.clear();
 }
 
 //  processing event
@@ -103,15 +105,12 @@ void onPlayerAdded(Integer playerNum, PointF pos) {
 }
 
 void onTouchStarted(Integer touchId, PointF pos) {
-
+    mTouchIdsStarting.add(touchId);
     // mGameController.touchAdded(touchId, pos);
 }
 
-void onTouchUpdated(Integer touchId, PointF pos) {
-
-}
-
-void onTouchEnded(Integer touchId, PointF pos) {
+void onTouchEnded(Integer touchId) {
+    mTouchIdsEnding.add(touchId);
 
 }
 
