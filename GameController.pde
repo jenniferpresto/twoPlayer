@@ -53,11 +53,25 @@ class GameController {
     }
 
     void reportStartingTouches(List<Integer> startingTouches) {
-
+        println("Starting touches: ");
+        for (int i = 0; i < startingTouches.size(); i++) {
+            println("id: " + startingTouches.get(i));
+        }
+        println("Existing touches: ");
+        for (int i = 0; i < touches.length; i++) {
+            println("id: " + touches[i].id);
+        }
     }
 
     void reportEndingTouches(List<Integer> endingTouches) {
-
+        println("Ending touches: ");
+        for (int i = 0; i < endingTouches.size(); i++) {
+            println("id: " + endingTouches.get(i));
+        }
+        println("Existing touches: ");
+        for (int i = 0; i < touches.length; i++) {
+            println("id: " + touches[i].id);
+        }
     }
 
     void updatePlayers() {
@@ -68,13 +82,13 @@ class GameController {
         for (Player p : mPlayers) {
             p.setDidUpdatePlayer(false);
         }
-        for (int i = 0; i < touches.length; i++) {
-            println("Touch " + i + "-- ");
-            println("\tid: " + touches[i].id);
-            println("\t   (" + touches[i].x + "," + touches[i].y + ")");
-            println("\tarea: " + touches[i].area);
-            println("\tpressure: " + touches[i].pressure);
-        }
+        // for (int i = 0; i < touches.length; i++) {
+            // println("Touch " + i + " -- ");
+            // println("\tid: " + touches[i].id);
+            // println("\t   (" + touches[i].x + "," + touches[i].y + ")");
+            // println("\tarea: " + touches[i].area);
+            // println("\tpressure: " + touches[i].pressure);
+        // }
 
         //  iterate through all active pointers
         // println(frameCount + ": Number of pointers: " + activePointers.size());

@@ -76,11 +76,11 @@ void setup() {
 void draw() {
     textAlign(CENTER, CENTER);
     background(BACKGROUND_COLOR);
-    if (mTouchIdsStarting.length > 0) {
+    if (mTouchIdsStarting.size() > 0) {
         mGameController.reportStartingTouches(mTouchIdsStarting);
         mTouchIdsStarting.clear();
     }
-    if (mTouchIdsEnding.length > 0) {
+    if (mTouchIdsEnding.size() > 0) {
         mGameController.reportEndingTouches(mTouchIdsEnding);
         mTouchIdsEnding.clear();
     }
@@ -104,7 +104,7 @@ void onPlayerAdded(Integer playerNum, PointF pos) {
     }
 }
 
-void onTouchStarted(Integer touchId, PointF pos) {
+void onTouchStarted(Integer touchId) {
     mTouchIdsStarting.add(touchId);
     // mGameController.touchAdded(touchId, pos);
 }
