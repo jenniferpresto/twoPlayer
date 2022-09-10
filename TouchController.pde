@@ -53,6 +53,7 @@ class TouchController {
                 point.x = e.getX(pointerIndex);
                 point.y = e.getY(pointerIndex);
                 mActivePointers.put(pointerId, point);
+                app.onTouchStarted(pointerId, point);
                 // Integer playerId = addPlayer(pointerId);
                 // if (playerId != null) {
                 //     app.onPlayerAdded(playerId, point);

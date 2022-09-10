@@ -52,6 +52,10 @@ class GameController {
         }
     }
 
+    void touchAdded(Integer touchId, PointF pos) {
+
+    }
+
     void updatePlayers() {
         if (mTouchController == null) return;
         Map<Integer, PointF> activePointers = mTouchController.getActivePointers();
@@ -60,12 +64,18 @@ class GameController {
         for (Player p : mPlayers) {
             p.setDidUpdatePlayer(false);
         }
+        for (int i = 0; i < touches.length; i++) {
+            println("Touch " + i + "-- ");
+            println("\tid: " + touches[i].id);
+            println("\t   (" + touches[i].x + "," + touches[i].y + ")");
+            println("\tarea: " + touches[i].area);
+            println("\tpressure: " + touches[i].pressure);
+        }
 
         //  iterate through all active pointers
-        println(frameCount + ": Number of pointers: " + activePointers.size());
+        // println(frameCount + ": Number of pointers: " + activePointers.size());
         Iterator<Map.Entry<Integer, PointF>> it = activePointers.entrySet().iterator();
         while(it.hasNext()) {
-            println("\tit has next");
             Map.Entry<Integer, PointF> pointer = it.next();
             boolean foundPointer = false;
             //  check active players to update
@@ -73,6 +83,7 @@ class GameController {
                 if (!p.getIsActive()) { continue; }
                 if(pointer.getKey().equals(p.getTouchId())) {
                     p.setPos(pointer.getValue().x, pointer.getValue().y);
+                    p.setDidUpdatePlayer(true);
                     foundPointer = true;
                     break;
                 }
@@ -83,6 +94,7 @@ class GameController {
                 for (Player p : mPlayers) {
                     if (!p.getIsActive()) {
                         println("adding new player: player " + p.getPlayerId());
+                        p.setDidUpdatePlayer(true);
                         p.setTouchId(pointer.getKey());
                         p.setPos(pointer.getValue().x, pointer.getValue().y);
                         p.setIsActive(true);
@@ -92,14 +104,14 @@ class GameController {
             }
         }
 
-        //  if there are players that don't have active pointers any more,
-        //  mark the player inactive
-        for (Player p : mPlayers) {
-            if (p.getIsActive() && !p.getDidUpdatePlayer()) {
-                println("Removing player: " + p.getPlayerId());
-                p.setIsActive(false);
-            }
-        }
+   //     //  if there are players that don't have active pointers any more,
+    //     //  mark the player inactive
+    //     for (Player p : mPlayers) {
+    //         if (p.getIsActive() && !p.getDidUpdatePlayer()) {
+    //             println("Removing player: " + p.getPlayerId());
+    //             p.setIsActive(false);
+    //         }
+    //     }
     }
     
 

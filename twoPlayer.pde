@@ -28,14 +28,21 @@ import android.app.Activity;
 import android.media.MediaPlayer.OnPreparedListener;
 
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import processing.event.TouchEvent;
 
 Context context;
 
 static color BACKGROUND_COLOR;
+final int MAX_PLAYERS = 2;
 
 //  controllers
 TouchController mTouchController;
 GameController mGameController;
+
+List<Integer> mTouchIdsStarting;
+List<Integer> mTouchIdsEnding;
 
 
 Player mPlayer1;
@@ -45,10 +52,14 @@ void setup() {
     println("Setting up; displayDensity: " + displayDensity);
     println("Class: " + this.getClass());
     String[] fonts = PFont.list();
+    println("All loaded fonts:");
     for (String f : fonts) {
-      println(f);
+      println("\t" + f);
     }
-    //println("All fonts:\n" + fonts);
+
+    mTouchIdsStarting = new ArrayList();
+    mTouchIdsEnding = new ArrayList();
+
     fullScreen();
     colorMode(HSB, 360, 100, 100);
     BACKGROUND_COLOR = color(49, 76, 58); // tan green
@@ -60,6 +71,7 @@ void setup() {
     ellipseMode(RADIUS);
     rectMode(CENTER);
     context = getActivity();
+
 }
 
 void draw() {
@@ -69,6 +81,12 @@ void draw() {
     mGameController.draw();
 }
 
+void clearTouchLists() {
+    mTouchIdsStarting.clear();
+    mTouchIdsEnding.clear();
+}
+
+//  processing event
 void getTouches() {
 }
 
@@ -82,6 +100,19 @@ void onPlayerAdded(Integer playerNum, PointF pos) {
     if (!mGameController.getIsGameOver()) {
         mGameController.addPlayer(playerNum, pos);
     }
+}
+
+void onTouchStarted(Integer touchId, PointF pos) {
+
+    // mGameController.touchAdded(touchId, pos);
+}
+
+void onTouchUpdated(Integer touchId, PointF pos) {
+
+}
+
+void onTouchEnded(Integer touchId, PointF pos) {
+
 }
 
 void onPlayerMoved(Integer playerNum, PointF pos) {
