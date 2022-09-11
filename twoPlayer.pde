@@ -43,10 +43,6 @@ GameController mGameController;
 List<Integer> mTouchIdsStarting;
 List<Integer> mTouchIdsEnding;
 
-
-Player mPlayer1;
-Player mPlayer2;
-
 void setup() {
     println("Setting up; displayDensity: " + displayDensity);
     println("Class: " + this.getClass());

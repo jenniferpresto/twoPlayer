@@ -51,35 +51,49 @@ class GameController {
     }
 
     void reportStartingTouches(List<Integer> startingTouches) {
-        println("Starting touches: ");
-        for (int i = 0; i < startingTouches.size(); i++) {
-            println("id: " + startingTouches.get(i));
-        }
-        println("Existing touches: ");
-        for (int i = 0; i < touches.length; i++) {
-            println("id: " + touches[i].id);
-        }
+        // println("Starting touches: ");
+        // for (int i = 0; i < startingTouches.size(); i++) {
+        //     println("id: " + startingTouches.get(i));
+        // }
+        // println("Existing touches: ");
+        // for (int i = 0; i < touches.length; i++) {
+        //     println("id: " + touches[i].id);
+        // }
 
-        for (int i = 0; i < startingTouches.size(); i++) {
-            for (int j = 0; j < mPlayers.length; j++) {
-                if (!mPlayers[j].getIsActive()) {
-                    mPlayers[i].setTouchId(startingTouches.get(i));
-                    mPlayers[i].setIsActive(true);
-                    continue;
+        for (Player player : mPlayers) {
+            if (player.getIsActive()) {
+                continue;
+            }
+            for (Integer touchId : startingTouches) {
+                //  make sure touch isn't used by another player
+                boolean isInUse = false;
+                for (Player otherPlayer : mPlayers) {
+                    if (player == otherPlayer) {
+                        continue;
+                    }
+                    if (otherPlayer.getTouchId() != null &&
+                    otherPlayer.getTouchId().equals(touchId)) {
+                        isInUse = true;
+                        continue;
+                    }
+                }
+                if (!isInUse) {
+                    player.setTouchId(touchId);
+                    player.setIsActive(true);
                 }
             }
         }
     }
 
     void reportEndingTouches(List<Integer> endingTouches) {
-        println("Ending touches: ");
-        for (int i = 0; i < endingTouches.size(); i++) {
-            println("id: " + endingTouches.get(i));
-        }
-        println("Existing touches: ");
-        for (int i = 0; i < touches.length; i++) {
-            println("id: " + touches[i].id);
-        }
+        // println("Ending touches: ");
+        // for (int i = 0; i < endingTouches.size(); i++) {
+        //     println("id: " + endingTouches.get(i));
+        // }
+        // println("Existing touches: ");
+        // for (int i = 0; i < touches.length; i++) {
+        //     println("id: " + touches[i].id);
+        // }
 
         for (int i = 0; i < endingTouches.size(); i++) {
             for (int j = 0; j < mPlayers.length; j++) {
