@@ -64,7 +64,7 @@ void setup() {
     BACKGROUND_COLOR = color(49, 76, 58); // tan green
     
     mTouchController = new TouchController();
-    mGameController = new GameController(mTouchController);
+    mGameController = new GameController();
     textFont(createFont("sansSerif", 24 * displayDensity));
     textAlign(CENTER, CENTER);
     ellipseMode(RADIUS);
@@ -130,9 +130,8 @@ void onClick(PVector pos) {
     println("End click at " + pos);
     if (mGameController.getIsGameOver() &&
         mGameController.clickIsInButton(pos)) {
-            println("We're clicking!");
+            println("click");
             mGameController.resetGame();
-            mTouchController.resetGame();
         }
 }
 

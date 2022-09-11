@@ -4,8 +4,8 @@
 import android.graphics.PointF;
 
 class TouchController {
-    Integer mPlayer1Id;
-    Integer mPlayer2Id;
+    // Integer mPlayer1Id;
+    // Integer mPlayer2Id;
     Map<Integer, PointF> mActivePointers;
     boolean mIsClicking;
     Integer mClickId;
@@ -14,29 +14,29 @@ class TouchController {
     float MAX_DRAG_DISTANCE = 10 * displayDensity;
 
     TouchController() {
-        mPlayer1Id = null;
-        mPlayer2Id = null;
+        // mPlayer1Id = null;
+        // mPlayer2Id = null;
         mActivePointers = new HashMap();
     }
 
-    Integer getPlayer1Id() { return mPlayer1Id; }
-    Integer getPlayer2Id() { return mPlayer2Id; }
+    // Integer getPlayer1Id() { return mPlayer1Id; }
+    // Integer getPlayer2Id() { return mPlayer2Id; }
 
-    PVector getPlayerPos(int playerNum) {
-        Integer playerId = playerNum == 1 ? mPlayer1Id : mPlayer2Id;
-        if (playerId == null) {
-            return null;
-        }
-        if (!mActivePointers.containsKey(playerId)) {
-            return null;
-        }
-        return new PVector(mActivePointers.get(playerId).x, mActivePointers.get(playerId).y);
-    }
+    // PVector getPlayerPos(int playerNum) {
+    //     Integer playerId = playerNum == 1 ? mPlayer1Id : mPlayer2Id;
+    //     if (playerId == null) {
+    //         return null;
+    //     }
+    //     if (!mActivePointers.containsKey(playerId)) {
+    //         return null;
+    //     }
+    //     return new PVector(mActivePointers.get(playerId).x, mActivePointers.get(playerId).y);
+    // }
 
     Map<Integer, PointF> getActivePointers() { return mActivePointers; }
 
     void processTouches(processing.test.twoplayer.twoPlayer app, MotionEvent e) {
-        println(millis() + "Touch controller processing touches");
+        // println(millis() + "Touch controller processing touches");
         //  pointer index from event object
         int pointerIndex = e.getActionIndex();
         //  pointer ID
@@ -47,7 +47,7 @@ class TouchController {
         switch(maskedAction) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
-                // println("down");
+                println("down for ID: " + pointerId);
                 //  new pointer
                 PointF point = new PointF();
                 point.x = e.getX(pointerIndex);
@@ -90,7 +90,7 @@ class TouchController {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
             case MotionEvent.ACTION_CANCEL:
-                println("up");
+                println("up for ID: " + pointerId);
                 mActivePointers.remove(pointerId);
                 app.onTouchEnded(pointerId);
                 // Integer delPlayerId = removePlayer(pointerId);
@@ -119,35 +119,35 @@ class TouchController {
         // println(millis() + "Touch controller done processing touches");
     }
 
-    Integer addPlayer(int pointerId) {
-        if (mPlayer1Id == null) {
-            mPlayer1Id = pointerId;
-            return 1;
-        } else if (mPlayer2Id == null) {
-            mPlayer2Id = pointerId;
-            return 2;
-        } else {
-            println("Warning: Already have two players");
-            return null;
-        }
-    }
+    // Integer addPlayer(int pointerId) {
+    //     if (mPlayer1Id == null) {
+    //         mPlayer1Id = pointerId;
+    //         return 1;
+    //     } else if (mPlayer2Id == null) {
+    //         mPlayer2Id = pointerId;
+    //         return 2;
+    //     } else {
+    //         println("Warning: Already have two players");
+    //         return null;
+    //     }
+    // }
 
-    Integer removePlayer(int pointerId) {
-        if (mPlayer1Id != null && mPlayer1Id.equals(pointerId)) {
-            mPlayer1Id = null;
-            return 1;
-        } else if (mPlayer2Id != null && mPlayer2Id.equals(pointerId)) {
-            mPlayer2Id = null;
-            return 2;
-        } else {
-            println("Warning: Did not remove player");
-            return null;
-        }
-    }
+    // Integer removePlayer(int pointerId) {
+    //     if (mPlayer1Id != null && mPlayer1Id.equals(pointerId)) {
+    //         mPlayer1Id = null;
+    //         return 1;
+    //     } else if (mPlayer2Id != null && mPlayer2Id.equals(pointerId)) {
+    //         mPlayer2Id = null;
+    //         return 2;
+    //     } else {
+    //         println("Warning: Did not remove player");
+    //         return null;
+    //     }
+    // }
 
-    void resetGame() {
-        mPlayer1Id = null;
-        mPlayer2Id = null;
-        println("Touch controller has reset game");
-    }
+    // void resetGame() {
+    //     mPlayer1Id = null;
+    //     mPlayer2Id = null;
+    //     println("Touch controller has reset game");
+    // }
 }
