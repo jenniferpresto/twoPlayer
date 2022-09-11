@@ -94,32 +94,13 @@ void mousePressed() {
 void mouseReleased() {
 }
 
-void onPlayerAdded(Integer playerNum, PointF pos) {
-    if (!mGameController.getIsGameOver()) {
-        mGameController.addPlayer(playerNum, pos);
-    }
-}
-
 void onTouchStarted(Integer touchId) {
     mTouchIdsStarting.add(touchId);
-    // mGameController.touchAdded(touchId, pos);
 }
 
 void onTouchEnded(Integer touchId) {
     mTouchIdsEnding.add(touchId);
 
-}
-
-void onPlayerMoved(Integer playerNum, PointF pos) {
-    if (!mGameController.getIsGameOver()) {
-        mGameController.updatePlayer(playerNum, pos);
-    }
-}
-
-void onPlayerRemoved(Integer playerNum) {
-    if (!mGameController.getIsGameOver()) {
-        mGameController.removePlayer(playerNum);
-    }
 }
 
 void onClick(PVector pos) {
@@ -140,7 +121,6 @@ boolean surfaceTouchEvent(MotionEvent e) {
 
 //  Processing event
 void touchStarted() {
-    // print("Started, no parameters");
 }
 
 

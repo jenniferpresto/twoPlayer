@@ -14,7 +14,6 @@ class GameController {
     ResetGameButton mResetGameButton;
 
     GameController() {
-        // mTouchController = tc;
         mPlayer1Col = color(177, 71, 88); // aqua
         mPlayer2Col = color(311, 61, 88); // lilac
 
@@ -51,15 +50,6 @@ class GameController {
     }
 
     void reportStartingTouches(List<Integer> startingTouches) {
-        // println("Starting touches: ");
-        // for (int i = 0; i < startingTouches.size(); i++) {
-        //     println("id: " + startingTouches.get(i));
-        // }
-        // println("Existing touches: ");
-        // for (int i = 0; i < touches.length; i++) {
-        //     println("id: " + touches[i].id);
-        // }
-
         for (Player player : mPlayers) {
             if (player.getIsActive()) {
                 continue;
@@ -86,15 +76,6 @@ class GameController {
     }
 
     void reportEndingTouches(List<Integer> endingTouches) {
-        // println("Ending touches: ");
-        // for (int i = 0; i < endingTouches.size(); i++) {
-        //     println("id: " + endingTouches.get(i));
-        // }
-        // println("Existing touches: ");
-        // for (int i = 0; i < touches.length; i++) {
-        //     println("id: " + touches[i].id);
-        // }
-
         for (int i = 0; i < endingTouches.size(); i++) {
             for (int j = 0; j < mPlayers.length; j++) {
                 if(endingTouches.get(i).equals(mPlayers[j].getTouchId())) {
@@ -115,61 +96,6 @@ class GameController {
                 }
             }
         }
-        // if (mTouchController == null) return;
-        // Map<Integer, PointF> activePointers = mTouchController.getActivePointers();
-
-        //  set each player's didUpdate to false
-        // for (Player p : mPlayers) {
-        //     p.setDidUpdatePlayer(false);
-        // }
-        // for (int i = 0; i < touches.length; i++) {
-            // println("Touch " + i + " -- ");
-            // println("\tid: " + touches[i].id);
-            // println("\t   (" + touches[i].x + "," + touches[i].y + ")");
-            // println("\tarea: " + touches[i].area);
-            // println("\tpressure: " + touches[i].pressure);
-        // }
-
-        //  iterate through all active pointers
-        // println(frameCount + ": Number of pointers: " + activePointers.size());
-        // Iterator<Map.Entry<Integer, PointF>> it = activePointers.entrySet().iterator();
-        // while(it.hasNext()) {
-        //     Map.Entry<Integer, PointF> pointer = it.next();
-        //     boolean foundPointer = false;
-        //     //  check active players to update
-        //     for (Player p : mPlayers) {
-        //         if (!p.getIsActive()) { continue; }
-        //         if(pointer.getKey().equals(p.getTouchId())) {
-        //             p.setPos(pointer.getValue().x, pointer.getValue().y);
-        //             p.setDidUpdatePlayer(true);
-        //             foundPointer = true;
-        //             break;
-        //         }
-        //     }
-
-        //     //  if we didn't use that pointer, see if there are inactive players
-        //     if (foundPointer == false) {
-        //         for (Player p : mPlayers) {
-        //             if (!p.getIsActive()) {
-        //                 println("adding new player: player " + p.getPlayerId());
-        //                 p.setDidUpdatePlayer(true);
-        //                 p.setTouchId(pointer.getKey());
-        //                 p.setPos(pointer.getValue().x, pointer.getValue().y);
-        //                 p.setIsActive(true);
-        //                 break;
-        //             }
-        //         }
-        //     }
-        // }
-
-   //     //  if there are players that don't have active pointers any more,
-    //     //  mark the player inactive
-    //     for (Player p : mPlayers) {
-    //         if (p.getIsActive() && !p.getDidUpdatePlayer()) {
-    //             println("Removing player: " + p.getPlayerId());
-    //             p.setIsActive(false);
-    //         }
-    //     }
     }
     
 
