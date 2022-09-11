@@ -61,8 +61,9 @@ class GameController {
                     if (player == otherPlayer) {
                         continue;
                     }
-                    if (otherPlayer.getTouchId() != null &&
-                    otherPlayer.getTouchId().equals(touchId)) {
+                    if (otherPlayer.getIsActive() &&
+                        otherPlayer.getTouchId() != null &&
+                        otherPlayer.getTouchId().equals(touchId)) {
                         isInUse = true;
                         continue;
                     }
@@ -164,6 +165,7 @@ class GameController {
         mBallController.setup();
         for (Player p : mPlayers) {
             p.setIsActive(false);
+            p.setScore(0);
         }
         mIsGameOver = false;
         println("Game controller has reset game");

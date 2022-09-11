@@ -28,7 +28,6 @@ class TouchController {
         switch(maskedAction) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
-                println("down for ID: " + pointerId);
                 //  new pointer
                 PointF point = new PointF();
                 point.x = e.getX(pointerIndex);
@@ -61,7 +60,6 @@ class TouchController {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
             case MotionEvent.ACTION_CANCEL:
-                println("up for ID: " + pointerId);
                 mActivePointers.remove(pointerId);
                 app.onTouchEnded(pointerId);
 
