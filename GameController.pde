@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 class GameController {
+    final static float PLAYER_HOME_HEIGHT_PCT = 0.15;
 
     Player mPlayer1;
     Player mPlayer2;
@@ -12,6 +13,8 @@ class GameController {
     BallController mBallController;
     boolean mIsGameOver;
     ResetGameButton mResetGameButton;
+    final float mBoundaryTop;
+    final float mBoundaryBottom;
 
     GameController() {
         mPlayer1Col = color(177, 71, 88); // aqua
@@ -35,45 +38,95 @@ class GameController {
         mResetGameButton = new ResetGameButton();
 
         mIsGameOver = false;
+        mBoundaryTop = height * PLAYER_HOME_HEIGHT_PCT;
+        mBoundaryBottom = height - (height * PLAYER_HOME_HEIGHT_PCT);
     }
 
     boolean getIsGameOver() { return mIsGameOver; }
 
-    void addPlayer(Integer playerNum, PointF pos) {
-        if (playerNum.equals(1)) {
-            mPlayer1.setIsActive(true);
-            mPlayer1.getPos().set(pos.x, pos.y);
-        } else if (playerNum.equals(2)) {
-            mPlayer2.setIsActive(true);
-            mPlayer2.getPos().set(pos.x, pos.y);
+    void addPlayer(int playerNum, int touchId, float x, float y ) {
+        int playerIndex = playerNum - 1;
+        if (playerIndex < 0 || playerIndex > mPlayers.length - 1) {
+            print("This is weird");
+            return;
         }
+        Player player = mPlayers[playerIndex];
+        player.setIsActive(true);
+        player.getPos().set(x, y);
+        player.setTouchId(touchId);
+        
+        // if (playerNum.equals(1)) {
+        //     mPlayer1.setIsActive(true);
+        //     mPlayer1.getPos().set(x, y);
+        // } else if (playerNum.equals(2)) {
+        //     mPlayer2.setIsActive(true);
+        //     mPlayer2.getPos().set(x, y);
+        // }
     }
 
     void reportStartingTouches(List<Integer> startingTouches) {
-        for (Player player : mPlayers) {
-            if (player.getIsActive()) {
+        for (Integer touchId : startingTouches) {
+            if (touchIsInUse(touchId)) {
                 continue;
             }
-            for (Integer touchId : startingTouches) {
-                //  make sure touch isn't used by another player
-                boolean isInUse = false;
-                for (Player otherPlayer : mPlayers) {
-                    if (player == otherPlayer) {
-                        continue;
-                    }
-                    if (otherPlayer.getIsActive() &&
-                        otherPlayer.getTouchId() != null &&
-                        otherPlayer.getTouchId().equals(touchId)) {
-                        isInUse = true;
-                        continue;
-                    }
+            for(TouchEvent.Pointer t : touches) {
+                if (!touchId.equals(t.id)) {
+                    continue;
                 }
-                if (!isInUse) {
-                    player.setTouchId(touchId);
-                    player.setIsActive(true);
+                if(t.y < mBoundaryTop) {
+                    print("This is player 1!");
+                    if (mPlayer1.getIsActive()) {
+                        continue;
+                    } else {
+                        addPlayer(1, t.id, t.x, t.y);
+                    }
+                } else if (t.y > mBoundaryBottom) {
+                    print("This is player 2!");
+                    if (mPlayer2.getIsActive()) {
+                        continue;
+                    } else {
+                        addPlayer(2, t.id, t.x, t.y);
+                    }
                 }
             }
         }
+        
+        // print("Starting touches!!" + startingTouches);
+        // for (Player player : mPlayers) {
+        //     if (player.getIsActive()) {
+        //         continue;
+        //     }
+        //     for (Integer touchId : startingTouches) {
+        //         //  make sure touch isn't used by another player
+        //         boolean isInUse = false;
+        //         for (Player otherPlayer : mPlayers) {
+        //             if (player == otherPlayer) {
+        //                 continue;
+        //             }
+        //             if (otherPlayer.getIsActive() &&
+        //                 otherPlayer.getTouchId() != null &&
+        //                 otherPlayer.getTouchId().equals(touchId)) {
+        //                 isInUse = true;
+        //                 continue;
+        //             }
+        //         }
+        //         if (!isInUse) {
+        //             player.setTouchId(touchId);
+        //             player.setIsActive(true);
+        //         }
+        //     }
+        // }
+    }
+
+    boolean touchIsInUse(Integer touchId) {
+        for (Player p : mPlayers) {
+            if (p.getIsActive()) {
+                if (p.getTouchId().equals(touchId)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     void reportEndingTouches(List<Integer> endingTouches) {
@@ -100,21 +153,21 @@ class GameController {
     }
     
 
-    void updatePlayer(Integer playerNum, PointF pos) {
-        if (playerNum.equals(1)) {
-            if (!mPlayer1.getIsActive()) {
-                println("Error: unexpected update on inactive player 1");
-                return;
-            }
-            mPlayer1.setPos(pos.x, pos.y);
-        } else if (playerNum.equals(2)) {
-            if (!mPlayer2.getIsActive()) {
-                println("Error: unexpected update on inactive player 2");
-                return;
-            }
-            mPlayer2.setPos(pos.x, pos.y);
-        }
-    }
+    // void updatePlayer(Integer playerNum, PointF pos) {
+    //     if (playerNum.equals(1)) {
+    //         if (!mPlayer1.getIsActive()) {
+    //             println("Error: unexpected update on inactive player 1");
+    //             return;
+    //         }
+    //         mPlayer1.setPos(pos.x, pos.y);
+    //     } else if (playerNum.equals(2)) {
+    //         if (!mPlayer2.getIsActive()) {
+    //             println("Error: unexpected update on inactive player 2");
+    //             return;
+    //         }
+    //         mPlayer2.setPos(pos.x, pos.y);
+    //     }
+    // }
 
     void removePlayer(Integer playerNum) {
         if (playerNum.equals(1)) {
@@ -185,6 +238,9 @@ class GameController {
         if (mIsGameOver) {
             mResetGameButton.draw();
         } else {
+            stroke(164, 88, 19);
+            line(0, mBoundaryTop, width, mBoundaryTop);
+            line(0, mBoundaryBottom, width, mBoundaryBottom);
             mBallController.draw();
             if (mPlayer1.getIsActive()) {
                 mPlayer1.draw();
@@ -193,7 +249,7 @@ class GameController {
                 mPlayer2.draw();
             }
         }
-        fill(0, 0, 100);
+        fill(167, 88, 19);
         textAlign(LEFT, TOP);
         text("Player 1: " + mPlayer1.getScore(), 5 * displayDensity, 10 * displayDensity);
         text("Player 2: " + mPlayer2.getScore(), 5 * displayDensity, 40 * displayDensity);

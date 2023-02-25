@@ -100,7 +100,6 @@ void onTouchStarted(Integer touchId) {
 
 void onTouchEnded(Integer touchId) {
     mTouchIdsEnding.add(touchId);
-
 }
 
 void onClick(PVector pos) {

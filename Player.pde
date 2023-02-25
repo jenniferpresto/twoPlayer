@@ -7,6 +7,7 @@ class Player {
     int mScore;
     Integer mTouchId;
     Integer mPlayerId;
+    
 
 
     Player() {
