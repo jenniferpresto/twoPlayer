@@ -45,7 +45,6 @@ List<Integer> mTouchIdsEnding;
 
 void setup() {
     println("Setting up; displayDensity: " + displayDensity);
-    println("Class: " + this.getClass());
     String[] fonts = PFont.list();
     println("All loaded fonts:");
     for (String f : fonts) {
@@ -73,14 +72,10 @@ void draw() {
     textAlign(CENTER, CENTER);
     background(BACKGROUND_COLOR);
     if (mTouchIdsStarting.size() > 0) {
-        println("*******************************************");
-        println("We have a new starting touch: " + mTouchIdsStarting);
         mGameController.reportStartingTouches(mTouchIdsStarting, mTouchController.getActivePointers());
         mTouchIdsStarting.clear();
     }
     if (mTouchIdsEnding.size() > 0) {
-        println("Ending touch");
-        println("############################################");
         mGameController.reportEndingTouches(mTouchIdsEnding);
         mTouchIdsEnding.clear();
     }

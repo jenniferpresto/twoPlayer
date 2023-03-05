@@ -60,31 +60,27 @@ class GameController {
         for (Integer touchId : startingTouches) {
 
             if (touchIsInUse(touchId)) {
-                println("Touch is in use");
+                println("Error: Touch is in use");
                 continue;
             }
 
             PointF startingTouch = allActiveTouches.get(touchId);
             if (startingTouch == null) {
-                println("Error, starting touch not in list of touches");
+                println("Error: starting touch not in list of touches");
                 continue;
             }
             if (startingTouch.y < mBoundaryTop) {
-                print("This is a player 1 touch!");
                 if (mPlayer1.getIsActive()) {
                     continue;
                 } else {
                     addPlayer(1, touchId, startingTouch.x, startingTouch.y);
                 }
             } else if (startingTouch.y > mBoundaryBottom) {
-                print("This is a player 2 touch!");
                 if (mPlayer2.getIsActive()) {
                     continue;
                 } else {
                     addPlayer(2, touchId, startingTouch.x, startingTouch.y);
                 }
-            } else {
-                println("Outside the boundaries");
             }
         }
     }
@@ -121,11 +117,6 @@ class GameController {
                 continue;
             }
             p.setPos(point.x, point.y);
-            // for (TouchEvent.Pointer t : touches) {
-            //     if(p.getTouchId().equals(t.id)) {
-            //         p.setPos(t.x, t.y);
-            //     }
-            // }
         }
     }
     
