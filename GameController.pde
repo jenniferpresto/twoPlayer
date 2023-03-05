@@ -64,12 +64,17 @@ class GameController {
         // }
     }
 
-    void reportStartingTouches(List<Integer> startingTouches) {
+    void reportStartingTouches(List<Integer> startingTouches, Map<Integer, PointF> allActiveTouches) {
+        println("Look at processing's touches: " + touches.length);
         for (Integer touchId : startingTouches) {
+
             if (touchIsInUse(touchId)) {
+                println("Touch is in use");
                 continue;
             }
             for(TouchEvent.Pointer t : touches) {
+                println("Going through processing touches");
+                println(touches);
                 if (!touchId.equals(t.id)) {
                     continue;
                 }
@@ -87,6 +92,8 @@ class GameController {
                     } else {
                         addPlayer(2, t.id, t.x, t.y);
                     }
+                } else {
+                    println("Outside the boundaries");
                 }
             }
         }

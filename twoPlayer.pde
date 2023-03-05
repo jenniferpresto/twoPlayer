@@ -59,7 +59,7 @@ void setup() {
     colorMode(HSB, 360, 100, 100);
     BACKGROUND_COLOR = color(49, 76, 58); // tan green
     
-    mTouchController = new TouchController();
+    mTouchController = new TouchController(this);
     mGameController = new GameController();
     textFont(createFont("sansSerif", 24 * displayDensity));
     textAlign(CENTER, CENTER);
@@ -73,10 +73,14 @@ void draw() {
     textAlign(CENTER, CENTER);
     background(BACKGROUND_COLOR);
     if (mTouchIdsStarting.size() > 0) {
+        println("*******************************************");
+        println("We have a new starting touch: " + mTouchIdsStarting);
         mGameController.reportStartingTouches(mTouchIdsStarting);
         mTouchIdsStarting.clear();
     }
     if (mTouchIdsEnding.size() > 0) {
+        println("Ending touch");
+        println("############################################");
         mGameController.reportEndingTouches(mTouchIdsEnding);
         mTouchIdsEnding.clear();
     }
@@ -95,6 +99,7 @@ void mouseReleased() {
 }
 
 void onTouchStarted(Integer touchId) {
+    println("Adding starting touch to list");
     mTouchIdsStarting.add(touchId);
 }
 
@@ -113,7 +118,7 @@ void onClick(PVector pos) {
 
 @Override
 boolean surfaceTouchEvent(MotionEvent e) {
-    mTouchController.processTouches(this, e);
+    mTouchController.processTouches(e);
     return super.surfaceTouchEvent(e);
 }
 
