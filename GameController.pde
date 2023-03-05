@@ -72,30 +72,37 @@ class GameController {
                 println("Touch is in use");
                 continue;
             }
-            for(TouchEvent.Pointer t : touches) {
-                println("Going through processing touches");
-                println(touches);
-                if (!touchId.equals(t.id)) {
-                    continue;
-                }
-                if(t.y < mBoundaryTop) {
-                    print("This is player 1!");
-                    if (mPlayer1.getIsActive()) {
-                        continue;
-                    } else {
-                        addPlayer(1, t.id, t.x, t.y);
-                    }
-                } else if (t.y > mBoundaryBottom) {
-                    print("This is player 2!");
-                    if (mPlayer2.getIsActive()) {
-                        continue;
-                    } else {
-                        addPlayer(2, t.id, t.x, t.y);
-                    }
-                } else {
-                    println("Outside the boundaries");
-                }
+
+            // for(TouchEvent.Pointer t : touches) {
+                // println("Going through processing touches");
+                // println(touches);
+
+            PointF startingTouch = allActiveTouches.get(touchId);
+            if (startingTouch == null) {
+                println("Error, starting touch not in list of touches");
+                continue;
             }
+            // if (!touchId.equals(t.id)) {
+            //     continue;
+            // }
+            if (startingTouch.y < mBoundaryTop) {
+                print("This is a player 1 touch!");
+                if (mPlayer1.getIsActive()) {
+                    continue;
+                } else {
+                    addPlayer(1, touchId, startingTouch.x, startingTouch.y);
+                }
+            } else if (startingTouch.y > mBoundaryBottom) {
+                print("This is a player 2 touch!");
+                if (mPlayer2.getIsActive()) {
+                    continue;
+                } else {
+                    addPlayer(2, touchId, startingTouch.x, startingTouch.y);
+                }
+            } else {
+                println("Outside the boundaries");
+            }
+            // }
         }
         
         // print("Starting touches!!" + startingTouches);

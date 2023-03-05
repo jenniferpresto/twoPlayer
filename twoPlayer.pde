@@ -75,7 +75,7 @@ void draw() {
     if (mTouchIdsStarting.size() > 0) {
         println("*******************************************");
         println("We have a new starting touch: " + mTouchIdsStarting);
-        mGameController.reportStartingTouches(mTouchIdsStarting);
+        mGameController.reportStartingTouches(mTouchIdsStarting, mTouchController.getActivePointers());
         mTouchIdsStarting.clear();
     }
     if (mTouchIdsEnding.size() > 0) {
