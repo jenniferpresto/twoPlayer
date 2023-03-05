@@ -58,6 +58,7 @@ class TouchController {
                     //  if this is not an active pointer, it means it's new
                     //  report as a new touch
                     else {
+                        println("Adding new pointer because of move and not down action");
                         addNewPointer(e);
                     }
                 }

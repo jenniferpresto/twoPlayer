@@ -84,7 +84,7 @@ void draw() {
         mGameController.reportEndingTouches(mTouchIdsEnding);
         mTouchIdsEnding.clear();
     }
-    mGameController.update();
+    mGameController.update(mTouchController.getActivePointers());
     mGameController.draw();
 }
 
@@ -99,7 +99,6 @@ void mouseReleased() {
 }
 
 void onTouchStarted(Integer touchId) {
-    println("Adding starting touch to list");
     mTouchIdsStarting.add(touchId);
 }
 
@@ -108,7 +107,6 @@ void onTouchEnded(Integer touchId) {
 }
 
 void onClick(PVector pos) {
-    println("End click at " + pos);
     if (mGameController.getIsGameOver() &&
         mGameController.clickIsInButton(pos)) {
             println("click");

@@ -54,18 +54,9 @@ class GameController {
         player.setIsActive(true);
         player.getPos().set(x, y);
         player.setTouchId(touchId);
-        
-        // if (playerNum.equals(1)) {
-        //     mPlayer1.setIsActive(true);
-        //     mPlayer1.getPos().set(x, y);
-        // } else if (playerNum.equals(2)) {
-        //     mPlayer2.setIsActive(true);
-        //     mPlayer2.getPos().set(x, y);
-        // }
     }
 
     void reportStartingTouches(List<Integer> startingTouches, Map<Integer, PointF> allActiveTouches) {
-        println("Look at processing's touches: " + touches.length);
         for (Integer touchId : startingTouches) {
 
             if (touchIsInUse(touchId)) {
@@ -73,18 +64,11 @@ class GameController {
                 continue;
             }
 
-            // for(TouchEvent.Pointer t : touches) {
-                // println("Going through processing touches");
-                // println(touches);
-
             PointF startingTouch = allActiveTouches.get(touchId);
             if (startingTouch == null) {
                 println("Error, starting touch not in list of touches");
                 continue;
             }
-            // if (!touchId.equals(t.id)) {
-            //     continue;
-            // }
             if (startingTouch.y < mBoundaryTop) {
                 print("This is a player 1 touch!");
                 if (mPlayer1.getIsActive()) {
@@ -102,34 +86,7 @@ class GameController {
             } else {
                 println("Outside the boundaries");
             }
-            // }
         }
-        
-        // print("Starting touches!!" + startingTouches);
-        // for (Player player : mPlayers) {
-        //     if (player.getIsActive()) {
-        //         continue;
-        //     }
-        //     for (Integer touchId : startingTouches) {
-        //         //  make sure touch isn't used by another player
-        //         boolean isInUse = false;
-        //         for (Player otherPlayer : mPlayers) {
-        //             if (player == otherPlayer) {
-        //                 continue;
-        //             }
-        //             if (otherPlayer.getIsActive() &&
-        //                 otherPlayer.getTouchId() != null &&
-        //                 otherPlayer.getTouchId().equals(touchId)) {
-        //                 isInUse = true;
-        //                 continue;
-        //             }
-        //         }
-        //         if (!isInUse) {
-        //             player.setTouchId(touchId);
-        //             player.setIsActive(true);
-        //         }
-        //     }
-        // }
     }
 
     boolean touchIsInUse(Integer touchId) {
@@ -153,36 +110,25 @@ class GameController {
         }
     }
 
-    void updatePlayers() {
+    void updatePlayers(Map<Integer, PointF> activeTouches) {
         for (Player p : mPlayers) {
             if (!p.getIsActive()) {
                 continue;
             }
-            for (TouchEvent.Pointer t : touches) {
-                if(p.getTouchId().equals(t.id)) {
-                    p.setPos(t.x, t.y);
-                }
+            PointF point = activeTouches.get(p.getTouchId());
+            if (point == null) {
+                println("Error, updating player's touch ID does not exist");
+                continue;
             }
+            p.setPos(point.x, point.y);
+            // for (TouchEvent.Pointer t : touches) {
+            //     if(p.getTouchId().equals(t.id)) {
+            //         p.setPos(t.x, t.y);
+            //     }
+            // }
         }
     }
     
-
-    // void updatePlayer(Integer playerNum, PointF pos) {
-    //     if (playerNum.equals(1)) {
-    //         if (!mPlayer1.getIsActive()) {
-    //             println("Error: unexpected update on inactive player 1");
-    //             return;
-    //         }
-    //         mPlayer1.setPos(pos.x, pos.y);
-    //     } else if (playerNum.equals(2)) {
-    //         if (!mPlayer2.getIsActive()) {
-    //             println("Error: unexpected update on inactive player 2");
-    //             return;
-    //         }
-    //         mPlayer2.setPos(pos.x, pos.y);
-    //     }
-    // }
-
     void removePlayer(Integer playerNum) {
         if (playerNum.equals(1)) {
             mPlayer1.setIsActive(false);
@@ -238,8 +184,8 @@ class GameController {
         println("Game controller has reset game");
     }
 
-    void update() {
-        updatePlayers();
+    void update(Map<Integer, PointF> activeTouches) {
+        updatePlayers(activeTouches);
         checkGameOver();
         if (mIsGameOver) {
         } else {
